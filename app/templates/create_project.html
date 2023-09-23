@@ -5,7 +5,7 @@
     <h1 class="text-center"> Добавить проект </h1><br>
     <hr>
     <form method="post" action="" novalidate>
-        {{ form.csrf_token }}
+        {{ form.hidden_tag() }}
         <div class="form-group">
             <label>
                 {{ form.title.label }}

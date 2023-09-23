@@ -16,12 +16,14 @@
             flex-direction: column;
             min-height: 100vh;
         }
+
     </style>
 </head>
 <style>
     .bg-dark {
 
     }
+
 </style>
 <body>
 <div id="wrapper" class="wrapper">
@@ -40,24 +42,24 @@
                     <li><a href="/"
                            class="nav-link mr-2 px-2 btn btn-outline-light">Главная</a>
                     </li>
-                    <li><a href="/create_project"
+                    <li><a href="{{ url_for('create_project') }}"
                            class="nav-link mr-2 px-2 btn btn-outline-light ">Добавить проект</a>
                     </li>
-                    <li><a href="/archive"
+                    <li><a href="{{ url_for('archive') }}"
                            class="nav-link mr-2 px-2 btn btn-outline-light">Архив проектов</a>
                     </li>
-                    <li><a href="/about"
+                    <li><a href="{{ url_for('about') }}"
                            class="nav-link px-2 btn btn-outline-light">О сайте</a>
                     </li>
                 </ul>
 
                 <div class="nav justify-content-end">
                     {% if data.is_auth %}
-                        <a href="{{ url_for('profile', user_id=1) }}" class="btn btn-primary mr-1">Профиль</a>
-                        <a href="/logout" class="btn btn-danger mr-1">Выход</a>
+                    <a href="{{ url_for('profile') }}" class="btn btn-primary mr-1">Профиль</a>
+                    <a href="{{ url_for('logout') }}" class="btn btn-danger mr-1">Выход</a>
                     {% else %}
-                        <a href="/login" class="btn btn-success me-2 mr-1">Вход</a>
-                        <a href="/register" class="btn btn-warning mr-1">Регистрация</a>
+                    <a href="{{ url_for('login') }}" class="btn btn-success me-2 mr-1">Вход</a>
+                    <a href="{{ url_for('register') }}" class="btn btn-warning mr-1">Регистрация</a>
                     {% endif %}
                 </div>
             </div>

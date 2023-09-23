@@ -5,28 +5,31 @@ from app.models import User
 
 
 class LoginForm(FlaskForm):
-    username = StringField("Username", validators=[DataRequired()])
-    password = PasswordField("Password", validators=[DataRequired()])
-    remember_me = BooleanField("Remember_me")
-    submit = SubmitField("Sign_in")
+    email = EmailField("Электронная почта",
+                       validators=[DataRequired(), Email(message="Неверный адрес электронной почты")])
+    password = PasswordField("Пароль", validators=[DataRequired()])
+    remember_me = BooleanField("Запомнить меня")
+    submit = SubmitField("Войти")
 
 
 class RegistrationForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired()])
-    email = EmailField('Email', validators=[DataRequired(), Email()])
-    password = PasswordField('Password', validators=[DataRequired()])
-    password2 = PasswordField('Repeat Password', validators=[DataRequired(), EqualTo('password')])
-    submit = SubmitField('Register')
+    username = StringField('ФИО', validators=[DataRequired()])
+    email = EmailField('Электронная почта',
+                       validators=[DataRequired(), Email(message="Неверный адрес электронной почты")])
+    password = PasswordField('Пароль', validators=[DataRequired()])
+    password2 = PasswordField('Повторите пароль', validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('Зарегистрироваться')
 
     def validate_username(self, username):
-        user = User.query.filter_by(username=username.data).first()
+        user = None if len(username.data.split()) == 3 else True
         if user is not None:
-            raise ValidationError('Please use a different username.')
+            raise ValidationError('Пожалуйста, напишите ФИО правильно.')
 
     def validate_email(self, email):
         user = User.query.filter_by(email=email.data).first()
         if user is not None:
-            raise ValidationError('Please use a different email address.')
+            raise ValidationError('Пожалуйста, используйте другой адрес электронной почты.')
+
 
 class ProjectForm(FlaskForm):
     title = StringField('Название проекта', validators=[
