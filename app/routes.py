@@ -6,12 +6,19 @@ from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User
 from werkzeug.urls import url_parse
 from app import db
+from .forms import *
 
 
-@app.route("/index")
-@login_required
+@app.route("/")
+#@login_required
 def index():
-    return render_template("index.html", title="Home")
+    data = {
+        'news': 'True',
+        'categories': [],
+        'is_auth': True if current_user.is_authenticated else False,
+        'show_categories': True
+    }
+    return render_template('index.html', data=data)
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -52,3 +59,17 @@ def register():
         flash('Congratulations, you are now a registered user!')
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
+
+@app.route('/create_project', methods=['POST', 'GET'])
+#@login_required
+def create_project():
+    form = ProjectForm()
+    data = []
+    if form.validate_on_submit():
+        '''project = Project()
+        project.title = form.title.data
+        project.text = form.text.data
+        db.session.add(project)
+        db.session.commit()'''
+        return redirect(url_for('index'))
+    return render_template('create_project.html', form=form, data=data)

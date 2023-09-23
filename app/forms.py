@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, EmailField
-from wtforms.validators import DataRequired, Email, EqualTo, ValidationError
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, EmailField, TextAreaField
+from wtforms.validators import DataRequired, Email, EqualTo, ValidationError, length, Optional
 from app.models import User
 
 
@@ -27,3 +27,11 @@ class RegistrationForm(FlaskForm):
         user = User.query.filter_by(email=email.data).first()
         if user is not None:
             raise ValidationError('Please use a different email address.')
+
+class ProjectForm(FlaskForm):
+    title = StringField('Название проекта', validators=[
+        DataRequired(message='Поле не может быть пустым'),
+        length(max=255, min=3, message='Введите название длиной от 3 до 255 символов')])
+    text = TextAreaField(
+        'Описание проекта', validators=[DataRequired(message='Поле не может быть пустым')])
+    submit = SubmitField('Добавить проект')
