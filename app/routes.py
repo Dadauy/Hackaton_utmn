@@ -14,12 +14,28 @@ def logout():
     return redirect(url_for('index'))
 
 
-@app.route("/profile")
+@app.route('/delete')
 @login_required
-def profile():
-    # user = User.query.filter_by(uuid=profile_uuid).first_or_404()
-    # return render_template('profile.html', user=user, profile_uuid=profile_uuid)
-    return """Надо реализовать"""
+def delete():
+    pass
+
+
+@app.route('/edit')
+@login_required
+def edit():
+    pass
+
+
+@app.route("/profile/<profile_uuid>")
+@login_required
+def profile(profile_uuid):
+    data = {
+        "is_auth": current_user.is_authenticated,
+        "profile_uuid": current_user.uuid
+    }
+
+    user = User.query.filter_by(uuid=profile_uuid).first_or_404()
+    return render_template('profile.html', user=user, data=data)
 
 
 @app.route("/archive")
@@ -36,8 +52,10 @@ def about():
 @app.route("/")
 def index():
     data = {
-        "is_auth": current_user.is_authenticated
+        "is_auth": current_user.is_authenticated,
     }
+    if data["is_auth"]:
+        data["profile_uuid"] = current_user.uuid
 
     return render_template('index.html', data=data)
 
@@ -45,8 +63,10 @@ def index():
 @app.route("/login", methods=["GET", "POST"])
 def login():
     data = {
-        "is_auth": current_user.is_authenticated
+        "is_auth": current_user.is_authenticated,
     }
+    if data["is_auth"]:
+        data["profile_uuid"] = current_user.uuid
 
     if current_user.is_authenticated:
         return redirect(url_for('index'))
@@ -66,8 +86,10 @@ def login():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     data = {
-        "is_auth": current_user.is_authenticated
+        "is_auth": current_user.is_authenticated,
     }
+    if data["is_auth"]:
+        data["profile_uuid"] = current_user.uuid
 
     if current_user.is_authenticated:
         return redirect(url_for('index'))
@@ -87,7 +109,8 @@ def register():
 @login_required
 def create_project():
     data = {
-        "is_auth": current_user.is_authenticated
+        "is_auth": current_user.is_authenticated,
+        "profile_uuid": current_user.uuid
     }
 
     form = ProjectForm()
