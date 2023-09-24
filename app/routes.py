@@ -3,7 +3,7 @@ from app import app
 from flask import render_template, redirect, url_for, request
 from app.forms import LoginForm, RegistrationForm, ProjectForm, DeleteProfile, EditProfileForm
 from flask_login import current_user, login_user, logout_user, login_required
-from app.models import User
+from app.models import User, Project
 from werkzeug.urls import url_parse
 from app import db
 
@@ -59,12 +59,6 @@ def profile(profile_uuid):
 
     user = User.query.filter_by(uuid=profile_uuid).first_or_404()
     return render_template('profile.html', user=user, data=data)
-
-
-@app.route("/archive")
-@login_required
-def archive():
-    return """Надо реализовать"""
 
 
 @app.route("/about")
@@ -138,10 +132,30 @@ def create_project():
 
     form = ProjectForm()
     if form.validate_on_submit():
-        '''project = Project()
-        project.title = form.title.data
+        project = Project()
+        project.name = form.title.data
+        project.city = form.city.data
+        project.street = form.street.data
+        project.home = form.home.data
         project.text = form.text.data
+        project.creator = current_user.id
+
+        user = User.query.filter_by(id=current_user.id).first()
+        user.add_projects(project.id)  # projects.id is None - исправить
+
         db.session.add(project)
-        db.session.commit()'''
-        return redirect(url_for('index'))
+        db.session.commit()
+
+        return redirect(url_for('archive'))
     return render_template('create_project.html', form=form, data=data)
+
+
+@app.route("/archive")
+@login_required
+def archive():
+    data = {
+        "is_auth": current_user.is_authenticated,
+        "profile_uuid": current_user.uuid
+    }
+
+    return render_template('archive.html', data=data)

@@ -37,11 +37,19 @@ class User(UserMixin, db.Model):
         digest = md5(self.email.lower().encode('utf-8')).hexdigest()
         return 'https://www.gravatar.com/avatar/{}?d=mp&s={}'.format(digest, size)
 
+    def add_projects(self, project_id):
+        lst = json.loads(self.created_projects)
+        lst.append(project_id)
+        self.created_projects = json.dumps(lst)
+
 
 class Project(db.Model):
     id = db.Column(db.Integer, primary_key=True, index=True)
-    name = db.Column(db.String(64))
-    address = db.Column(db.String(64))
+    name = db.Column(db.String(256))
+    city = db.Column(db.String(64))
+    street = db.Column(db.String(64))
+    home = db.Column(db.String(64))
+    text = db.Column(db.String(256))
     creator = db.Column(db.Integer, index=True)
     editors = db.Column(db.JSON, default=json.dumps([]))
     viewers = db.Column(db.JSON, default=json.dumps([]))
