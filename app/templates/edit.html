@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %} Редактировать профиль {% endblock %}
+
+{% block content %}
+    {% if user == current_user %}
+        <form action="" method="post">
+            {{ form.hidden_tag() }}
+            <p>
+                {{ form.username.label }}<br>
+                {{ form.username(size=64, value=user.username) }}<br>
+                {% for error in form.username.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </p>
+            <p>
+                {{ form.email.label }}<br>
+                {{ form.email(size=64, value=user.email) }}<br>
+                {% for error in form.email.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </p>
+            <p>
+                {{ form.info.label }}<br>
+                {{ form.info(size=256, value=user.info) }}<br>
+                {% for error in form.info.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </p>
+            <p>{{ form.submit() }}</p>
+        </form>
+    {% else %}
+        <p>У вас нет прав на редактирование этого пользователя</p>
+    {% endif %}
+{% endblock %}

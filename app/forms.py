@@ -45,5 +45,16 @@ class ProjectForm(FlaskForm):
 
 class EditProfileForm(FlaskForm):
     username = StringField('ФИО', validators=[DataRequired()])
+    email = EmailField('Электронная почта',
+                       validators=[DataRequired(), Email(message="Неверный адрес электронной почты")])
     info = TextAreaField('Дополнительная информация', validators=[length(min=0, max=256)])
-    submit = SubmitField('Submit')
+    submit = SubmitField('Сохранить')
+
+    def validate_username(self, username):
+        user = None if len(username.data.split()) == 3 else True
+        if user is not None:
+            raise ValidationError('Пожалуйста, напишите ФИО правильно.')
+
+
+class DeleteProfile(FlaskForm):
+    submit = SubmitField("Удалить профиль")

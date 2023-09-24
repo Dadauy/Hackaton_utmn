@@ -1,7 +1,7 @@
 from app import app
 
 from flask import render_template, redirect, url_for, request
-from app.forms import LoginForm, RegistrationForm, ProjectForm
+from app.forms import LoginForm, RegistrationForm, ProjectForm, DeleteProfile, EditProfileForm
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User
 from werkzeug.urls import url_parse
@@ -14,16 +14,39 @@ def logout():
     return redirect(url_for('index'))
 
 
-@app.route('/delete')
+@app.route('/profile/<profile_uuid>/delete', methods=["GET", "POST"])
 @login_required
-def delete():
-    pass
+def delete(profile_uuid):
+    data = {
+        "is_auth": current_user.is_authenticated,
+        "profile_uuid": current_user.uuid
+    }
+
+    form = DeleteProfile()
+    user = User.query.filter_by(uuid=profile_uuid).first_or_404()
+    if form.validate_on_submit():
+        db.session.delete(user)
+        db.session.commit()
+        return redirect(url_for('index'))
+    return render_template('delete.html', user=user, data=data, form=form)
 
 
-@app.route('/edit')
+@app.route("/profile/<profile_uuid>/edit", methods=["GET", "POST"])
 @login_required
-def edit():
-    pass
+def edit(profile_uuid):
+    data = {
+        "is_auth": current_user.is_authenticated,
+        "profile_uuid": current_user.uuid
+    }
+    form = EditProfileForm()
+    user = User.query.filter_by(uuid=profile_uuid).first_or_404()
+    if form.validate_on_submit():
+        user.username = form.username.data
+        user.email = form.email.data
+        user.info = form.info.data
+        db.session.commit()
+        return redirect(url_for('profile', profile_uuid=user.uuid))
+    return render_template('edit.html', user=user, data=data, form=form)
 
 
 @app.route("/profile/<profile_uuid>")

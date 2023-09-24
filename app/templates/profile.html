@@ -8,14 +8,9 @@
             <td><h1>{{ user.username }}</h1></td>
         </tr>
     </table>
-{% endblock %}
-
-{% block button %}
-    <table>
-        <tr valign="top">
-            <td><a href="{{ url_for('edit') }}" class="btn btn-primary mr-1">Редактировать профиль</a></td>
-            <td><a href="{{ url_for('logout') }}" class="btn btn-danger mr-1">Выйти из профиля</a></td>
-            <td><a href="{{ url_for('delete') }}" class="btn btn-danger mr-1">Удалить профиль</a></td>
-        </tr>
-    </table>
+    {% if user == current_user %}
+        <td><a href="{{ url_for('edit', profile_uuid=data.profile_uuid) }}" class="btn btn-primary mr-1">Редактировать профиль</a></td><br>
+        <td><a href="{{ url_for('logout') }}" class="btn btn-danger mr-1">Выйти из профиля</a></td><br>
+        <td><a href="{{ url_for('delete', profile_uuid=data.profile_uuid) }}" class="btn btn-danger mr-1">Удалить профиль</a></td>
+    {% endif %}
 {% endblock %}
