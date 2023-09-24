@@ -20,23 +20,16 @@
 
     </style>
 </head>
-<style>
-    .bg-dark {
-
-    }
-
-
-</style>
 <body>
 <div id="wrapper" class="wrapper">
     <header class="p-3 bg-dark">
         <div class="container">
-            <div class="d-flex justify-content">
+            <div class="d-flex justify-content-between">
                 <a href="/" class="nav align-items-start">
                     <svg class="bi me-2" width="20px" height="20px" role="img" aria-label="Bootstrap">
                         <img src="{{ url_for('static', filename='images/ico.jpg') }}" class="mr-2"
-                             height="36"
-                             width="36" alt="">
+                             height="42"
+                             width="42" alt="">
                     </svg>
                 </a>
 
@@ -44,14 +37,14 @@
                     <li><a href="/"
                            class="nav-link mr-2 px-2 btn btn-outline-light">Главная</a>
                     </li>
+                    <li><a href="{{ url_for('my_projects') }}"
+                           class="nav-link mr-2 px-2 btn btn-outline-light ">Мои проекты</a>
+                    </li>
                     <li><a href="{{ url_for('create_project') }}"
                            class="nav-link mr-2 px-2 btn btn-outline-light ">Добавить проект</a>
                     </li>
-                    <li><a href="{{ url_for('archive') }}"
-                           class="nav-link mr-2 px-2 btn btn-outline-light">Архив проектов</a>
-                    </li>
-                    <li><a href="{{ url_for('about') }}"
-                           class="nav-link px-2 btn btn-outline-light">О сайте</a>
+                    <li><a href="{{ url_for('all_projects') }}"
+                           class="nav-link mr-2 px-2 btn btn-outline-light">Другие проекты</a>
                     </li>
                 </ul>
 
@@ -77,7 +70,7 @@
         </div>
     </div>
 
-    <footer id="footer" class="bg-fffff text-white text-center mt-4 py-3 footer">
+    <footer id="footer" class="bg-dark text-white text-center mt-4 py-3 footer">
         &copy; 2023 ООО "МЯСО". Все права НЕ защищены.
     </footer>
 </div>

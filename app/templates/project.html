@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %} {{ data.project.name }} {% endblock %}
+
+{% block content %}
+    <h1 class="text-center">{{data.project.name}}</h1>
+    <hr>
+    <p style="font-size: 20px"> Описание: {{ data.project.text }}</p>
+
+
+{% endblock %}

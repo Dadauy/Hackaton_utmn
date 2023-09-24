@@ -3,6 +3,7 @@
 
 {% block content %}
     {% if user == current_user %}
+        <h4 style="color:red"> ВНИМАНИЕ! В СЛУЧАЕ УДАЛЕНИЯ АККАУНТА ВЫ ПОТЕРЯЕТЕ ВСЕ ДАННЫЕ, В ТОМ ЧИСЛЕ ДОСТУП К СВОИМ ПРОЕКТАМ!</h4>
         <form action="" method="post">
             {{ form.hidden_tag() }}
             <p>{{ form.submit() }}</p>

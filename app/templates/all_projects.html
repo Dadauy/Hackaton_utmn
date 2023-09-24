@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %} Все проекты {% endblock %}
+
+{% block content %}
+    <h1 class="text-center"> Все проекты </h1><br>
+    <h4>
+        Здесь собраны все проекты
+    </h4>
+    <hr>
+    {% for project in data.projects %}
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title">{{ project.name }}</h5>
+                <p class="card-text">{{ project.text|truncate(80) }}</p>
+                <div class="row">
+                    <div class="col">
+                        <a href="{{ url_for('project', project_id=project.id) }}"
+                           class="btn btn-primary">Открыть проект</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}
