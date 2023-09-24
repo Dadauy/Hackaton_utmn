@@ -1,44 +1,44 @@
 Base объекты
 ------------
 
-* id(int) - последовательный id какого-то объекта
+* *NAME_id*(int) - последовательный id какого-то объекта
 
 * hash(str) - как бы тоже id, но уже рандомная строка
 
 * base
     - status(str)
-    - dates(dates)
     - info(str)
+    - *date_planned*(datetime.datetime)
+    - *date_actual*(datetime.datetime)
 
-Объекты проекта
+Наследуемые объекты проекта
 ---------------
 
-* dependence(id)
-    - this(id)
-    - after(id)
+* work(base)
+    - *obj_id*(int)
 
-* dates(id)
-    - planned(str)
-    - actual(str)
+* resource(base)
+    - *obj_id*(int)
 
-* work(base, id)
-
-* resource(base, id)
-
-* payment(base, id)
+* payment(base)
+    - *obj_id*(int)
 
 Ключевые объекты
 ----------------
 
-* project(base, id)
-    - viewers(list[id])
-    - editors(list[id])
-    - works(list[id])
-    - resources(list[id])
-    - payments(list[id])
-    - dependencies(list[id])
+* project(base)
+    - *proj_id*(int)
+    - name(str)
+    - creator(str)
+    - viewers(list[*user_id*])
+    - editors(list[*user_id*])
+    - works(list[*obj_id*])
+    - resources(list[*obj_id*])
+    - payments(list[*obj_id*])
+    - dependencies(dict[from[*obj_id*]: to[list[*obj_id*]]])
 
-* user(id)
+* user
+    - *user_id*(int)
     - *full_name*(str)
     - email(str)
     - password(str)
