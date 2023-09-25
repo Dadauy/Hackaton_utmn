@@ -4,6 +4,11 @@ from wtforms.validators import DataRequired, Email, EqualTo, ValidationError, le
 from app.models import User
 
 
+def check_username(username):
+    if len(username.split()) < 2:
+        raise ValidationError('Пожалуйста, напишите ФИО правильно.')
+
+
 class LoginForm(FlaskForm):
     email = EmailField("Электронная почта",
                        validators=[DataRequired(), Email(message="Неверный адрес электронной почты")])
@@ -21,9 +26,7 @@ class RegistrationForm(FlaskForm):
     submit = SubmitField('Зарегистрироваться')
 
     def validate_username(self, username):
-        user = None if len(username.data.split()) == 3 else True
-        if user is not None:
-            raise ValidationError('Пожалуйста, напишите ФИО правильно.')
+        check_username(username)
 
     def validate_email(self, email):
         user = User.query.filter_by(email=email.data).first()
@@ -51,10 +54,7 @@ class EditProfileForm(FlaskForm):
     submit = SubmitField('Сохранить')
 
     def validate_username(self, username):
-        user = None if len(username.data.split()) == 3 else True
-        if user is not None:
-            raise ValidationError('Пожалуйста, напишите ФИО правильно.')
-
+        check_username(username)
 
 class DeleteProfile(FlaskForm):
     submit = SubmitField("Удалить профиль")
