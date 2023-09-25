@@ -12,8 +12,7 @@ users = sa.Table('users', meta,
     sa.Column('full_name', sa.String),
     sa.Column('email', sa.String),
     sa.Column('password', sa.String),
-    sa.Column('info', sa.String),
-    sa.Column('created_projects', sa.String)
+    sa.Column('info', sa.String)
 )
 
 projects = sa.Table('projects', meta, 
@@ -53,18 +52,4 @@ dependencies = sa.Table('dependencies', meta,
     sa.Column('proj_id', sa.ForeignKey('projects.id')),
     sa.Column('from', sa.ForeignKey('nodes.id')),
     sa.Column('to', sa.ForeignKey('nodes.id'))
-)
-
-cookies = sa.Table('cookies', meta,
-    sa.Column('cookie', sa.Integer,
-        primary_key=True, nullable=False, 
-        unique=True, index=False),
-    sa.Column('user_id', sa.ForeignKey('users.id'))
-)
-
-cookies = sa.Table('cookies', meta,
-    sa.Column('cookie', sa.Integer,
-        primary_key=True, nullable=False, 
-        unique=True, index=False),
-    sa.Column('user_id', sa.ForeignKey('users.id'))
 )
