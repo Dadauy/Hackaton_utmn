@@ -38,7 +38,7 @@ def edit_project(project_id):
         "profile_uuid": current_user.uuid
     }
     projects_ids = json.loads(current_user.created_projects)
-    if not(project_id in projects_ids):
+    if not (project_id in projects_ids):
         return redirect(url_for("project", project_id=project_id))
     form = EditProjectForm()  # TODO: сделать форму редактирования проекта
     project = Project.query.get_or_404(project_id)
@@ -142,8 +142,9 @@ def all_projects():
     data = {
         "is_auth": current_user.is_authenticated,
         "profile_uuid": current_user.uuid,
-        "projects": Project.query.order_by(Project.id.desc()).all(),
+        "projects": Project.query.order_by().all(),  # переписать после изменения БД
     }
+
     return render_template('all_projects.html', data=data)
 
 
