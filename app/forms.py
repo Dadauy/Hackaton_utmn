@@ -26,7 +26,7 @@ class RegistrationForm(FlaskForm):
     submit = SubmitField('Зарегистрироваться')
 
     def validate_username(self, username):
-        check_username(username)
+        check_username(str(username))
 
     def validate_email(self, email):
         user = User.query.filter_by(email=email.data).first()
@@ -54,7 +54,8 @@ class EditProfileForm(FlaskForm):
     submit = SubmitField('Сохранить')
 
     def validate_username(self, username):
-        check_username(username)
+        check_username(str(username))
+
 
 class DeleteProfile(FlaskForm):
     submit = SubmitField("Удалить профиль")
